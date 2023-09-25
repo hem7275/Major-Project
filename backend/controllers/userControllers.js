@@ -6,6 +6,9 @@ const jwt = require("jsonwebtoken");
 const Follow = require("../models/Follow");
 const { default: mongoose } = require("mongoose");
 
+const maxAge = 3 * 24 * 60 * 60;//in seconds
+
+
 const getUserDict = (token, user) => {
   return {
     token,
@@ -49,6 +52,7 @@ const register = async (req, res) => {
     });
 
     const token = jwt.sign(buildToken(user), process.env.TOKEN_KEY);
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
 
     return res.json(getUserDict(token, user));
   } catch (err) {
@@ -79,7 +83,7 @@ const login = async (req, res) => {
     }
 
     const token = jwt.sign(buildToken(user), process.env.TOKEN_KEY);
-
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
     return res.json(getUserDict(token, user));
   } catch (err) {
     console.log(err);
