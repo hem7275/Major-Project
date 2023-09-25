@@ -94,7 +94,8 @@ const follow = async (req, res) => {
 
     const existingFollow = await Follow.find({ userId, followingId });
 
-    if (existingFollow) {
+    if (!existingFollow) {
+      //console.log(existingFollow);
       throw new Error("Already following this user");
     }
 
@@ -133,15 +134,13 @@ const unfollow = async (req, res) => {
     const { userId } = req.body;
     const followingId = req.params.id;
 
-    const existingFollow = await Follow.find({ userId, followingId });
+    const result = await Follow.findOneAndRemove({ userId, followingId });
 
-    if (!existingFollow) {
+    if (!result) {
       throw new Error("Not already following user");
     }
 
-    await existingFollow.remove();
-
-    return res.status(200).json({ data: existingFollow });
+    return res.status(200).json({ data: result });
   } catch (err) {
     return res.status(400).json({ error: err.message });
   }
@@ -254,3 +253,6 @@ module.exports = {
   getRandomUsers,
   updateUser,
 };
+
+
+// controllers auth
