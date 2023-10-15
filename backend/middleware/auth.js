@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
   try {
-    const token = req.headers["x-access-token"];
+    const token = req.cookies.jwt;
 
     if (!token) {
       throw new Error("No token provided");
@@ -24,7 +24,7 @@ const verifyToken = (req, res, next) => {
 
 const optionallyVerifyToken = (req, res, next) => {
   try {
-    const token = req.headers["x-access-token"];
+    const token = req.cookies.jwt;
 
     if (!token) return next();
 

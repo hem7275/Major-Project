@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const path = require("path");
+const cookieParser = require('cookie-parser');
+
 const app = express();
 const { authSocket, socketServer } = require("./socketServer");
 const posts = require("./routes/posts");
@@ -11,6 +13,7 @@ const comments = require("./routes/comments");
 const messages = require("./routes/messages");
 const PostLike = require("./models/PostLike");
 const Post = require("./models/Post");
+
 
 dotenv.config();
 
@@ -38,6 +41,8 @@ httpServer.listen(process.env.PORT || 4000, () => {
 
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
+
 app.use("/api/posts", posts);
 app.use("/api/users", users);
 app.use("/api/comments", comments);
