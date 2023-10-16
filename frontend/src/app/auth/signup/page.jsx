@@ -20,6 +20,7 @@ const SignupPage = () => {
             );
         },
         onSuccess: ({ data }) => {
+            localStorage.setItem("user", JSON.stringify(data));
             console.log(data);
         },
     });
@@ -30,7 +31,7 @@ const SignupPage = () => {
 
     const onSignup = (e) => {
         e.preventDefault();
-    
+
         mutation.mutate(user);
     };
 
@@ -142,7 +143,7 @@ const SignupPage = () => {
                                 type="submit"
                                 className="w-full text-white bg-[#218dfa] hover:bg-[#4b9beb] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >
-                                Sign in
+                                Sign up
                             </button>
                             <button
                                 aria-label="Continue with google"

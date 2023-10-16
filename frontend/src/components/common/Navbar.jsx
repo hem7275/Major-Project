@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { navData } from "@/data";
 import Link from "next/link";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
     const [active, setActive] = useState(0);
+    const user = useSelector((state) => state.user);
 
     return (
         <div className="hidden md:flex flex-col w-fit max-w-[25%] z-50 sticky top-16 h-fit">
@@ -22,7 +24,7 @@ const Navbar = () => {
                 </div>
                 <div className="">
                     <Link href={"/profile"} className="text-md">
-                        John Doe
+                        {user?.username}
                     </Link>
                     <div className="text-sm">@johndoe</div>
                 </div>
@@ -48,9 +50,12 @@ const Navbar = () => {
                     </Link>
                 ))}
             </nav>
-            <button className="mt-5 bg-[#218dfa] text-center py-2 text-lg rounded-xl hover:bg-[#4b9beb]">
+            <Link
+                href="/create-post"
+                className="mt-5 bg-[#218dfa] text-center py-2 text-lg rounded-xl hover:bg-[#4b9beb]"
+            >
                 Create Post
-            </button>
+            </Link>
         </div>
     );
 };

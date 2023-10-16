@@ -3,6 +3,7 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useMutation } from "react-query";
+import cookie from 'react-cookies'
 
 const LoginPage = () => {
     const [user, setUser] = useState({
@@ -18,6 +19,8 @@ const LoginPage = () => {
             );
         },
         onSuccess: ({ data }) => {
+            localStorage.setItem("user", JSON.stringify(data));
+            cookie.save('jwt', data.token, { path: '/create-post' })
             console.log(data);
         },
     });
@@ -28,7 +31,7 @@ const LoginPage = () => {
 
     const onLogin = (e) => {
         e.preventDefault();
-    
+
         mutation.mutate(user);
     };
 
@@ -123,7 +126,7 @@ const LoginPage = () => {
                             <button
                                 aria-label="Continue with google"
                                 role="button"
-                                className="focus:outline-none focus:ring-2 flex justify-center focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-[#eeeeee] flex items-center w-full mt-10"
+                                className="focus:outline-none focus:ring-2 justify-center focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-[#eeeeee] flex items-center w-full mt-10"
                             >
                                 <svg
                                     width={19}
